@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void search() {
         String request = editText.getText().toString().replace(" ", "+");
+        editText.setText("");
 
         Call<ResponseArt> responseArtCall = RetroClient.getNewsAPI().everything(request);
 
