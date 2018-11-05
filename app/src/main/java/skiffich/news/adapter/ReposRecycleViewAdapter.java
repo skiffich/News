@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import skiffich.news.view.DownloadImageTask;
+import com.squareup.picasso.Picasso;
+
+import skiffich.news.view.CircleTransform;
 import skiffich.news.api.model.Article;
 
 import java.util.ArrayList;
@@ -46,7 +48,12 @@ public class ReposRecycleViewAdapter extends RecyclerView.Adapter<ReposRecycleVi
     public void onBindViewHolder(final ReposRecycleViewAdapter.ViewHolder holder, final int position) {
         holder.title.setText(articles.get(position).getTitle());
         holder.description.setText(articles.get(position).getDescription());
-        new DownloadImageTask(holder.poster).execute(articles.get(position).getUrlToImage());
+        Picasso.get()
+                .load(articles.get(position).getUrlToImage())
+                .centerCrop()
+                .transform(new CircleTransform(50,0))
+                .fit()
+                .into(holder.poster);
     }
 
     @Override
