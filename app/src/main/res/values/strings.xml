@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">News</string>
-    <string name="btnText">Search</string>
     <string name="srchHint">Enter request</string>
 </resources>
