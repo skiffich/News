@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import skiffich.news.WrapperLinearLayout;
-
 public class EndlessRecyclerView extends RecyclerView  {
 
     public  int pastVisiblesItems, visibleItemCount, totalItemCount;
@@ -51,7 +49,7 @@ public class EndlessRecyclerView extends RecyclerView  {
             pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
 
             if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                Log.e("...", "Call Load More !");
+                Log.e("MyLog", "Call Load More !");
                 if(onLoadMoreListener != null) {
                     onLoadMoreListener.onLoadMore();
                 }

@@ -1,4 +1,4 @@
-package skiffich.news;
+package skiffich.news.view;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +16,7 @@ public class WrapperLinearLayout extends LinearLayoutManager
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            Log.e("probe", "meet a IOOBE in RecyclerView");
+            Log.e("MyLogError", "meet a IOOBE in RecyclerView");
         }
     }
 }

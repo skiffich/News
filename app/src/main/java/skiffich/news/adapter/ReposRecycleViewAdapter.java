@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import skiffich.news.DownloadImageTask;
+import skiffich.news.view.DownloadImageTask;
 import skiffich.news.api.model.Article;
 
 import java.util.ArrayList;
