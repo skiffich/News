@@ -3,9 +3,14 @@ package skiffich.news;
 import android.os.Bundle;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -18,6 +23,8 @@ import skiffich.news.api.RetroClient;
 import skiffich.news.api.model.Article;
 import skiffich.news.api.model.ResponseArt;
 import skiffich.news.view.EndlessRecyclerView;
+import skiffich.news.view.FavoritesFragment;
+import skiffich.news.view.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements EndlessRecyclerView.OnLoadMoreListener,
         Callback<ResponseArt>, SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
@@ -31,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements EndlessRecyclerVi
     @BindView(R.id.swipeContainer)
     SwipeRefreshLayout swipeContainer;
 
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigationView;
+
     private ReposRecycleViewAdapter reposRecycleViewAdapter;
     private int currentPage = 1;
     private String requestStr = "";
@@ -40,9 +50,14 @@ public class MainActivity extends AppCompatActivity implements EndlessRecyclerVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new SearchFragment()).commit();
+
         ButterKnife.bind(this);
 
         reposRecycleViewAdapter = new ReposRecycleViewAdapter(this);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
         recyclerView.setOnLoadMoreListener(this);
         recyclerView.setAdapter(reposRecycleViewAdapter);
@@ -50,6 +65,28 @@ public class MainActivity extends AppCompatActivity implements EndlessRecyclerVi
         searchView.setOnQueryTextListener(this);
         swipeContainer.setOnRefreshListener(this);
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    Fragment selectedFragment = null;
+
+                    switch (menuItem.getItemId()) {
+                        case R.id.nav_search:
+                            selectedFragment = new SearchFragment();
+                            break;
+                        case R.id.nav_favorites:
+                            selectedFragment = new FavoritesFragment();
+                            break;
+                    }
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragment).commit();
+
+                    return true;
+                }
+            };
 
     @Override
     public void onRefresh() {
