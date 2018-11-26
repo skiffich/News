@@ -3,14 +3,14 @@ package skiffich.news.Entity;
 import java.util.ArrayList;
 
 public class ResponseArt {
-    String              status;
-    int                 totalResults;
-    ArrayList<Article>  articles;
+    private String status;
+    private int totalResults;
+    private ArrayList<Article> articles;
 
-    public ResponseArt() {
-        status          = "";
-        totalResults    = 0;
-        articles        = null;
+    public ResponseArt(String status, int totalResults, ArrayList<Article> articles) {
+        this.status = status;
+        this.totalResults = totalResults;
+        this.articles = articles;
     }
 
     public String getStatus() {

@@ -1,12 +1,12 @@
 package skiffich.news.Entity;
 
 public class Source {
-    String id;
-    String name;
+    private String id;
+    private String name;
 
-    public Source() {
-        id      = "";
-        name    = "";
+    public Source(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public String getId() {

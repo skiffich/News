@@ -16,18 +16,18 @@ import skiffich.news.Retrofit.RetroClient;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText    editText;
-    private Button      button;
-    private TextView    textView;
+    private EditText editText;
+    private Button button;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editText    = (EditText)findViewById(R.id.editText);
-        button      = (Button)  findViewById(R.id.button);
-        textView    = (TextView)findViewById(R.id.textView);
+        editText = (EditText)findViewById(R.id.editText);
+        button = (Button)  findViewById(R.id.button);
+        textView = (TextView)findViewById(R.id.textView);
 
         setBtnListener();
     }
@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         editText.setText("");
 
         Call<ResponseArt> responseArtCall = RetroClient.getNewsAPI().everything(request);
-
         responseArtCall.enqueue(new Callback<ResponseArt>() {
             @Override
             public void onResponse(Call<ResponseArt> call, Response<ResponseArt> response) {
