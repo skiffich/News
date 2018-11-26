@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class EndlessRecyclerView extends RecyclerView  {
 
-    public  int pastVisiblesItems, visibleItemCount, totalItemCount;
+    public int pastVisiblesItems, visibleItemCount, totalItemCount;
     private WrapperLinearLayout mLayoutManager;
     private Context mContext;
     private OnLoadMoreListener onLoadMoreListener;
@@ -43,13 +43,12 @@ public class EndlessRecyclerView extends RecyclerView  {
     @Override
     public void onScrolled(int dx, int dy) {
         super.onScrolled(dx, dy);
-        if(dy > 0) {
+        if (dy > 0) {
             visibleItemCount = mLayoutManager.getChildCount();
             totalItemCount = mLayoutManager.getItemCount();
             pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
 
             if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                Log.e("MyLog", "Call Load More !");
                 if(onLoadMoreListener != null) {
                     onLoadMoreListener.onLoadMore();
                 }

@@ -16,7 +16,8 @@ public class WrapperLinearLayout extends LinearLayoutManager
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            Log.e("MyLogError", "meet a IOOBE in RecyclerView");
+            Log.e("MyLogError",
+                    "catch a IndexOutOfBoundsException in WrapperLinearLayout.onLayoutChildren");
         }
     }
 }

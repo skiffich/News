@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements EndlessRecyclerVi
     SwipeRefreshLayout swipeContainer;
 
     private ReposRecycleViewAdapter reposRecycleViewAdapter;
-    private int     currentPage = 1;
-    private String  requestStr = "";
+    private int currentPage = 1;
+    private String requestStr = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,41 +54,48 @@ public class MainActivity extends AppCompatActivity implements EndlessRecyclerVi
     @Override
     public void onRefresh() {
         reposRecycleViewAdapter.clearList();
+        reposRecycleViewAdapter.notifyDataSetChanged();
         currentPage = 1;
-        RetroClient.instance().everything(requestStr, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
+        RetroClient.sInstance().everything(requestStr, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
         reposRecycleViewAdapter.clearList();
+        reposRecycleViewAdapter.notifyDataSetChanged();
         requestStr = query;
         currentPage = 1;
-        RetroClient.instance().everything(query, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
+        RetroClient.sInstance().everything(query, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
         reposRecycleViewAdapter.clearList();
+        reposRecycleViewAdapter.notifyDataSetChanged();
         requestStr = newText;
         currentPage = 1;
-        RetroClient.instance().everything(newText, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
-        return false;
+        if (!newText.contentEquals("")) {
+            RetroClient.sInstance().everything(newText, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
+        }
+        return true;
     }
 
     @Override
     public void onLoadMore() {
         currentPage++;
-        RetroClient. instance().everything(requestStr, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
+        RetroClient.sInstance().everything(requestStr, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
     }
 
     @Override
     public void onResponse(Call<ResponseArt> call, Response<ResponseArt> response) {
-        ResponseArt responseArt = response.body() != null ? response.body() : new ResponseArt();
-        if (responseArt.getArticles() != null) {
+        ResponseArt responseArt = response.body() != null ?
+                response.body() : new ResponseArt("", 0, null);
+        if (responseArt.getTotalResults() > 0) {
             swipeContainer.setRefreshing(false);
-            for (Article model : responseArt.getArticles())
-                reposRecycleViewAdapter.addItem(model);
+            for (Article article : responseArt.getArticles()) {
+                reposRecycleViewAdapter.addItem(article);
+            }
             reposRecycleViewAdapter.notifyDataSetChanged();
         }
     }

@@ -11,9 +11,9 @@ public class Source {
     @Expose
     private String name;
 
-    public Source() {
-        id      = "";
-        name    = "";
+    public Source(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public String getId() {

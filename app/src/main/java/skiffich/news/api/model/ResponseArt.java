@@ -15,10 +15,10 @@ public class ResponseArt {
     @Expose
     private List<Article> articles = null;
 
-    public ResponseArt() {
-        status          = "";
-        totalResults    = 0;
-        articles        = null;
+    public ResponseArt(String status, int totalResults, List<Article> articles) {
+        this.status = status;
+        this.totalResults = totalResults;
+        this.articles = articles;
     }
 
     public String getStatus() {
