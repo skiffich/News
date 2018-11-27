@@ -1,11 +1,17 @@
 package skiffich.news;
 
+import android.content.Intent;
 import android.os.Bundle;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -30,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements EndlessRecyclerVi
     SearchView searchView;
     @BindView(R.id.swipeContainer)
     SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigationView;
 
     private ReposRecycleViewAdapter reposRecycleViewAdapter;
     private int currentPage = 1;
@@ -40,9 +48,14 @@ public class MainActivity extends AppCompatActivity implements EndlessRecyclerVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = new Intent(this, ShowMoreActivity.class);
+        startActivity(intent);
+
         ButterKnife.bind(this);
 
         reposRecycleViewAdapter = new ReposRecycleViewAdapter(this);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
         recyclerView.setOnLoadMoreListener(this);
         recyclerView.setAdapter(reposRecycleViewAdapter);
@@ -50,6 +63,22 @@ public class MainActivity extends AppCompatActivity implements EndlessRecyclerVi
         searchView.setOnQueryTextListener(this);
         swipeContainer.setOnRefreshListener(this);
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.nav_search:
+                            searchView.setBackgroundResource(R.color.colorAccent);
+                            break;
+                        case R.id.nav_favorites:
+                            searchView.setBackgroundResource(R.color.colorPrimaryDark);
+                            break;
+                    }
+                    return true;
+                }
+            };
 
     @Override
     public void onRefresh() {
