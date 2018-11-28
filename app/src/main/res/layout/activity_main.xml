@@ -20,7 +20,6 @@
 
             <android.widget.SearchView
                 android:id="@+id/searchView"
-                android:background="@android:color/holo_red_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:queryHint="@string/srchHint"

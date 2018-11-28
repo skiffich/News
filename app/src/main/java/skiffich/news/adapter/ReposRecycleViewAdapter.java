@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import skiffich.news.ShowMoreActivity;
@@ -61,12 +62,9 @@ public class ReposRecycleViewAdapter extends RecyclerView.Adapter<ReposRecycleVi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ShowMoreActivity.class);
-                intent.putExtra("mainImageUrlD", articles.get(position).getUrlToImage());
-                intent.putExtra("contentViewD", articles.get(position).getContent());
-                intent.putExtra("titleArtD", articles.get(position).getTitle());
-                intent.putExtra("authorViewD", articles.get(position).getAuthor());
-                intent.putExtra("sourceViewD", articles.get(position).getSource().getName());
-                intent.putExtra("publishedAtViewD", articles.get(position).getPublishedAt());
+                Gson gson = new Gson();
+                String articleJson = gson.toJson(articles.get(position));
+                intent.putExtra("articleJson", articleJson);
                 context.startActivity(intent);
             }
         });
