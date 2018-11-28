@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import skiffich.news.adapter.CircleTransform;
 
 public class ShowMoreActivity extends AppCompatActivity implements View.OnClickListener {

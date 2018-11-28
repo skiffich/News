@@ -1,9 +1,6 @@
 package skiffich.news;
 
 import android.os.Bundle;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,10 +13,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import skiffich.news.adapter.ReposRecycleViewAdapter;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import skiffich.news.api.RetroClient;
 import skiffich.news.api.model.Article;
 import skiffich.news.api.model.ResponseArt;
+import skiffich.news.adapter.ReposRecycleViewAdapter;
 import skiffich.news.adapter.EndlessRecyclerView;
 
 public class MainActivity extends AppCompatActivity implements EndlessRecyclerView.OnLoadMoreListener,

@@ -14,13 +14,13 @@ import com.squareup.picasso.Picasso;
 
 import skiffich.news.ShowMoreActivity;
 import skiffich.news.api.model.Article;
+import skiffich.news.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import skiffich.news.R;
 
 public class ReposRecycleViewAdapter extends RecyclerView.Adapter<ReposRecycleViewAdapter.ViewHolder>{
 
