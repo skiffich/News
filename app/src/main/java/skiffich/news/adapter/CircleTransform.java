@@ -1,4 +1,4 @@
-package skiffich.news.view;
+package skiffich.news.adapter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;

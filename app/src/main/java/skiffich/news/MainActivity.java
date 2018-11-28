@@ -1,16 +1,13 @@
 package skiffich.news;
 
-import android.content.Intent;
 import android.os.Bundle;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -23,7 +20,7 @@ import skiffich.news.adapter.ReposRecycleViewAdapter;
 import skiffich.news.api.RetroClient;
 import skiffich.news.api.model.Article;
 import skiffich.news.api.model.ResponseArt;
-import skiffich.news.view.EndlessRecyclerView;
+import skiffich.news.adapter.EndlessRecyclerView;
 
 public class MainActivity extends AppCompatActivity implements EndlessRecyclerView.OnLoadMoreListener,
         Callback<ResponseArt>, SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
