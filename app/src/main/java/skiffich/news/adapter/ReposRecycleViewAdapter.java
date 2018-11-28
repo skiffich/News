@@ -1,15 +1,21 @@
 package skiffich.news.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import skiffich.news.ShowMoreActivity;
 import skiffich.news.view.CircleTransform;
 import skiffich.news.api.model.Article;
 
@@ -54,6 +60,20 @@ public class ReposRecycleViewAdapter extends RecyclerView.Adapter<ReposRecycleVi
                 .transform(new CircleTransform(50,0))
                 .fit()
                 .into(holder.poster);
+
+        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ShowMoreActivity.class);
+                intent.putExtra("mainImageUrlD", articles.get(position).getUrlToImage());
+                intent.putExtra("contentViewD", articles.get(position).getContent());
+                intent.putExtra("titleArtD", articles.get(position).getTitle());
+                intent.putExtra("authorViewD", articles.get(position).getAuthor());
+                intent.putExtra("sourceViewD", articles.get(position).getSource().getName());
+                intent.putExtra("publishedAtViewD", articles.get(position).getPublishedAt());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -69,6 +89,8 @@ public class ReposRecycleViewAdapter extends RecyclerView.Adapter<ReposRecycleVi
         TextView title;
         @BindView(R.id.textView_description)
         TextView description;
+        @BindView(R.id.parent_layout)
+        RelativeLayout parentLayout;
 
         ViewHolder(final View itemView) {
             super(itemView);

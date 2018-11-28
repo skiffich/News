@@ -48,9 +48,6 @@ public class MainActivity extends AppCompatActivity implements EndlessRecyclerVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, ShowMoreActivity.class);
-        startActivity(intent);
-
         ButterKnife.bind(this);
 
         reposRecycleViewAdapter = new ReposRecycleViewAdapter(this);

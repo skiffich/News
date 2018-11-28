@@ -12,12 +12,14 @@
             android:layout_width="match_parent"
             android:layout_height="200dp" />
         <TextView
+            android:id="@+id/titleArt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
             android:layout_margin="10dp"
-            android:text="Антиреклама парламентської республіки"
             android:textSize="30dp"/>
     </RelativeLayout>
 
@@ -43,10 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:textSize="20dp"
-                        android:text="Вчорашні балаган, фарс і клоунада на засіданні Верховної Ради щодо воєнного стану (https://t.me/chorno/344) стали найкращою антирекламою парламентської республіки. Цю антирекламу зробили, в першу чергу, якраз ті політики, які і просувають ідею парламентської республіки.
-
-Розумний баланс між сильним Президентом і сильним парламентом – вважаю, саме це найбільш оптимальним форматом для України."/>
+                        android:textSize="15dp"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
@@ -76,8 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:textSize="10dp"
-                        android:text="Some Noname Author"/>
+                        android:textSize="10dp"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
@@ -107,8 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:textSize="10dp"
-                        android:text="Ta vopshe hz zvidky"/>
+                        android:textSize="10dp"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
@@ -138,8 +135,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:textSize="10dp"
-                        android:text="Des' tam tochno ye"/>
+                        android:textSize="10dp"/>
                 </RelativeLayout>
             </LinearLayout>
             <Button

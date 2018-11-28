@@ -4,4 +4,5 @@
     <string name="srchMenu">Searcht</string>
     <string name="fvrtMenu">Favorite</string>
     <string name="title_activity_show_more">ShowMoreActivity</string>
+    <string name="title_activity_full_screen_image">FullScreenImage</string>
 </resources>
