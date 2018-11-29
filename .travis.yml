@@ -1,0 +1,30 @@
+language: android
+jdk: oraclejdk8
+sudo: false
+
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-24.0.2
+    - android-22
+    - android-24
+    - sys-img-armeabi-v7a-android-22
+    - extra-android-m2repository
+    
+deploy:
+  provider: releases
+  
+  file: "app/build/outputs/apk/debug/app-debug.apk"
+  skip_cleanup: true
+  on:
+    tags: false
+    all_branches: true
+
+before_script:
+  - echo yes | sdkmanager "build-tools;27.0.3"
+  - chmod +x gradlew
+
+script: 
+ - ./gradlew connectedAndroidTest
+ - ./gradlew assembleDebug
