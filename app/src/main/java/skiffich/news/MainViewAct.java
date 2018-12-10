@@ -8,11 +8,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -24,9 +26,12 @@ import skiffich.news.adapter.ReposRecycleViewAdapter;
 import skiffich.news.api.RetroClient;
 import skiffich.news.api.model.Article;
 import skiffich.news.api.model.ResponseArt;
+import skiffich.news.presenter.MainPresenter;
+import skiffich.news.presenter.PresenterInterfaces;
+import skiffich.news.view.ViewInterfaces;
 
 public class MainViewAct extends AppCompatActivity implements EndlessRecyclerView.OnLoadMoreListener,
-        SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
+        SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener, ViewInterfaces.MainView {
     @BindView(R.id.recycleView)
     EndlessRecyclerView recyclerView;
     @BindView(R.id.searchView)
@@ -40,6 +45,7 @@ public class MainViewAct extends AppCompatActivity implements EndlessRecyclerVie
     private int currentPage = 1;
     private String requestStr = "";
     private boolean mIsInFavorites = false;
+    private PresenterInterfaces.MainPresenter mainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,10 @@ public class MainViewAct extends AppCompatActivity implements EndlessRecyclerVie
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        super.onCreate(savedInstanceState);
+        View view = getWindow().getDecorView().getRootView();
+        mainPresenter = new MainPresenter(this);
 
         reposRecycleViewAdapter = new ReposRecycleViewAdapter(this);
 
@@ -126,5 +136,15 @@ public class MainViewAct extends AppCompatActivity implements EndlessRecyclerVie
         if (!mIsInFavorites) {
             currentPage++;
         }
+    }
+
+    @Override
+    public void setData(List<Article> imageItems) {
+
+    }
+
+    @Override
+    public void onResponseFailure(Throwable throwable) {
+
     }
 }

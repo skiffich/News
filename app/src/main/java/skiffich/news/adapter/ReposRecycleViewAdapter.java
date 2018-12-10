@@ -36,6 +36,10 @@ public class ReposRecycleViewAdapter extends RecyclerView.Adapter<ReposRecycleVi
         articles.add(article);
     }
 
+    public void addItems(List<Article> pArticles) {
+        this.articles.addAll(pArticles);
+    }
+
     public void clearList() {
         articles.clear();
     }
