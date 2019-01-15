@@ -1,63 +1,108 @@
 package skiffich.news;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import skiffich.news.Entity.ResponseArt;
-import skiffich.news.Retrofit.RetroClient;
 
-public class MainActivity extends AppCompatActivity {
+import skiffich.news.adapter.ReposRecycleViewAdapter;
+import skiffich.news.api.RetroClient;
+import skiffich.news.api.model.Article;
+import skiffich.news.api.model.ResponseArt;
+import skiffich.news.view.EndlessRecyclerView;
 
-    private EditText editText;
-    private Button button;
-    private TextView textView;
+public class MainActivity extends AppCompatActivity implements EndlessRecyclerView.OnLoadMoreListener,
+        Callback<ResponseArt>, SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
+
+    private static final int MAX_ITEMS_PER_PAGE = 20;
+
+    @BindView(R.id.recycleView)
+    EndlessRecyclerView recyclerView;
+    @BindView(R.id.searchView)
+    SearchView searchView;
+    @BindView(R.id.swipeContainer)
+    SwipeRefreshLayout swipeContainer;
+
+    private ReposRecycleViewAdapter reposRecycleViewAdapter;
+    private int currentPage = 1;
+    private String requestStr = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editText = (EditText)findViewById(R.id.editText);
-        button = (Button)  findViewById(R.id.button);
-        textView = (TextView)findViewById(R.id.textView);
+        ButterKnife.bind(this);
 
-        setBtnListener();
+        reposRecycleViewAdapter = new ReposRecycleViewAdapter(this);
+
+        recyclerView.setOnLoadMoreListener(this);
+        recyclerView.setAdapter(reposRecycleViewAdapter);
+
+        searchView.setOnQueryTextListener(this);
+        swipeContainer.setOnRefreshListener(this);
     }
 
-    private void setBtnListener() {
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                search();
-            }
-        });
+    @Override
+    public void onRefresh() {
+        reposRecycleViewAdapter.clearList();
+        reposRecycleViewAdapter.notifyDataSetChanged();
+        currentPage = 1;
+        RetroClient.sInstance().everything(requestStr, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
     }
 
-    private void search() {
-        String request = editText.getText().toString().replace(" ", "+");
-        editText.setText("");
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        reposRecycleViewAdapter.clearList();
+        reposRecycleViewAdapter.notifyDataSetChanged();
+        requestStr = query;
+        currentPage = 1;
+        RetroClient.sInstance().everything(query, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
+        return false;
+    }
 
-        Call<ResponseArt> responseArtCall = RetroClient.getNewsAPI().everything(request);
-        responseArtCall.enqueue(new Callback<ResponseArt>() {
-            @Override
-            public void onResponse(Call<ResponseArt> call, Response<ResponseArt> response) {
-                Log.d("MyLog", response.body().getArticles().get(0).getUrlToImage());
-                textView.setText("Found " + response.body().getTotalResults() + " results");
-            }
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        reposRecycleViewAdapter.clearList();
+        reposRecycleViewAdapter.notifyDataSetChanged();
+        requestStr = newText;
+        currentPage = 1;
+        if (!newText.contentEquals("")) {
+            RetroClient.sInstance().everything(newText, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
+        }
+        return true;
+    }
 
-            @Override
-            public void onFailure(Call<ResponseArt> call, Throwable t) {
-                Log.d("MyLog", "Fail " + t);
-                textView.setText("Fail");
+    @Override
+    public void onLoadMore() {
+        currentPage++;
+        RetroClient.sInstance().everything(requestStr, currentPage, MAX_ITEMS_PER_PAGE).enqueue(this);
+    }
+
+    @Override
+    public void onResponse(Call<ResponseArt> call, Response<ResponseArt> response) {
+        ResponseArt responseArt = response.body() != null ?
+                response.body() : new ResponseArt("", 0, null);
+        if (responseArt.getTotalResults() > 0) {
+            swipeContainer.setRefreshing(false);
+            for (Article article : responseArt.getArticles()) {
+                reposRecycleViewAdapter.addItem(article);
             }
-        });
+            reposRecycleViewAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onFailure(Call<ResponseArt> call, Throwable t) {
+        t.printStackTrace();
+        Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
     }
 }
