@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity implements EndlessRecyclerVi
     private static final int MAX_ITEMS_PER_PAGE = 20;
 
     @BindView(R.id.recycleView)
-    EndlessRecyclerView recyclerView;
+    protected EndlessRecyclerView recyclerView;
     @BindView(R.id.searchView)
-    SearchView searchView;
+    protected SearchView searchView;
     @BindView(R.id.swipeContainer)
     SwipeRefreshLayout swipeContainer;
     @BindView(R.id.bottom_navigation)

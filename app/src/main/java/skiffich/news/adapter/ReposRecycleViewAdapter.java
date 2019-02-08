@@ -78,9 +78,9 @@ public class ReposRecycleViewAdapter extends RecyclerView.Adapter<ReposRecycleVi
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.imageView_poster)
-        ImageView poster;
+        protected ImageView poster;
         @BindView(R.id.textView_title)
-        TextView title;
+        protected TextView title;
         @BindView(R.id.textView_description)
         TextView description;
         @BindView(R.id.parent_layout)
