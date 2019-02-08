@@ -1,24 +1,27 @@
 package skiffich.news.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import skiffich.news.view.CircleTransform;
+import skiffich.news.ShowMoreActivity;
 import skiffich.news.api.model.Article;
+import skiffich.news.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import skiffich.news.R;
 
 public class ReposRecycleViewAdapter extends RecyclerView.Adapter<ReposRecycleViewAdapter.ViewHolder>{
 
@@ -54,6 +57,17 @@ public class ReposRecycleViewAdapter extends RecyclerView.Adapter<ReposRecycleVi
                 .transform(new CircleTransform(50,0))
                 .fit()
                 .into(holder.poster);
+
+        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ShowMoreActivity.class);
+                Gson gson = new Gson();
+                String articleJson = gson.toJson(articles.get(position));
+                intent.putExtra("articleJson", articleJson);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -68,7 +82,9 @@ public class ReposRecycleViewAdapter extends RecyclerView.Adapter<ReposRecycleVi
         @BindView(R.id.textView_title)
         protected TextView title;
         @BindView(R.id.textView_description)
-        protected TextView description;
+        TextView description;
+        @BindView(R.id.parent_layout)
+        RelativeLayout parentLayout;
 
         ViewHolder(final View itemView) {
             super(itemView);
